@@ -1,0 +1,21 @@
+.category{
+  height: 100%;
+}
+.category-tree{
+  width:160px;
+  height:400px;
+  float:left;
+}
+#category-tree{
+    width: 100%;
+}
+.category-content{
+  height:100%;
+  width:85%;
+  float: right;
+  overflow: auto;
+}
+.category-option button{
+  margin-bottom: 10px;
+  margin-right: 10px;
+}

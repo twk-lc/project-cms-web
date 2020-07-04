@@ -1,0 +1,4 @@
+/* 去除圆点 */
+.comment #myTab li{
+  list-style: none;
+}

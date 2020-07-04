@@ -1,0 +1,68 @@
+一、环境搭建步骤
+    1、将jar包上传至服务器任意目录/var/www/html
+    2、启动jar包
+        在服务器的/var/www/html目录下，输入命令行，nohup java -jar cms-0509.jar &
+    3、查看jar包是否运行
+        输入命令行ps -ef | grep java
+    4、在浏览器登录阿里云/腾讯云，开放一个8099的端口
+    5、在浏览器输入ip:8099/swagger-ui.html访问接口
+    6、链接数据库
+    7、新建数据库
+        数据库名必须为cms
+    8、导入sql文件
+    9、新建用户
+        用户名briup
+        密码briupSH123
+        主机%
+    10、给用户添加权限
+        选中cms，右击右侧的列表，全部授予，点击确定
+
+    我的服务器http://39.96.21.48:8099/swagger-ui.html
+
+二、iconfont使用步骤
+    1、登录阿里巴巴矢量图标库，将需要的图标添加至购物车
+    2、将购物车中的所有图标添加至项目
+    3、点击font class，并查看在线链接
+    4、生成链接，将生成的链接复制到另一个浏览器窗口，将里面的所有内容复制到项目中的css文件
+    5、在项目使用<i class="iconfont icon-shouye">
+
+三、如果navicat连接补上服务器上的数据库
+    1、确保数据库密码正确
+        在xshell中登录mysql时输入的那个密码
+    2、仍然连接不上
+        参考博客：https://blog.csdn.net/qq_42720683/article/details/100544611
+    
+四、滚动条的样式设置
+    jquery.nicescroll.js
+
+五、prop与attr的区别
+    参考博客：https://blog.csdn.net/csdnluolei/article/details/86134815
+
+六、分页插件
+    http://www.jq22.com/jquery-info21889
+
+七、日期选择器插件
+    http://www.jq22.com/jquery-info10555
+
+八、echarts的使用
+    1、引入echarts文件
+        1) 通过bootcdn
+        2) 通过npm下载(vue项目中使用)
+    2、准备一个具备宽高的DOM容器
+    3、渲染数据
+
+
+
+---项目完善---
+1、富文本编辑内容的样式(接口问题)
+2、日期选择器范围选择、年份乱码
+3、文章管理模块级联搜索
+4、用户管理的表单验证
+5、用户状态的切换(使用开关)
+*6、用户管理所有的显示
+*7、用户管理删除、修改、头像上传
+*8、评论管理的审核、评论列表
+*9、文章封面大图预览
+
+
+

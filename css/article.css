@@ -1,0 +1,33 @@
+.article{
+    overflow: auto;
+    height: 100%;
+    width: 100%;
+}
+.article-option .btn-left button{
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+.btn-left{
+    float: left;
+}
+.btn-right{
+    width: 700px;
+    float: right;
+}
+.btn-right *{
+    display: inline-block;
+}
+.btn-right input{
+    width: 110px;
+}
+#keyWords{
+    width: 150px;
+    margin: 0 10px;
+}
+.btn-right button{
+    margin-right: 10px;
+}
+/* 富文本编辑器的头部样式 */
+.w-e-toolbar li{
+    list-style: none;
+}

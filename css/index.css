@@ -1,0 +1,84 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+html,body,.wrapper{
+  height:100%;
+}
+/*页面左侧样式*/
+.left{
+  height: 100%;
+  width: 15%;
+  background-color: rgb(48,65,86);
+  float:left;
+}
+.left-header{
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(0,40,77);
+
+}
+.left-header img{
+    height: 30px;
+}
+.left-header span{
+    color: #fff;
+    margin-left: 10px;
+    font-weight: 700;
+    font-size: 16px;
+}
+.left-nav li{
+  height: 60px;
+  text-align: center;
+  line-height: 60px;
+  color: #ccc;
+  list-style: none;
+  font-size: 16px;
+}
+/* 光标悬浮此变成手的形状 */
+.left-nav li:hover{
+    cursor: pointer;
+}
+.left-nav i{
+  float: left;
+  margin-left: 40px;
+}
+/* 树形结构的样式 */
+
+/* 去掉树形结构的默认边框和背景色 */
+#category-tree {
+    border: none;
+    background-color: #fff;
+}
+/* 树形结构的字体大小 */
+#category-tree li span{
+  font-size: 14px;
+}
+
+/* 页面右侧样式 */
+.right{
+  height:100%;
+  width: 85%;
+  float: left;
+  background-color: rgb(240,242,245);
+}
+.right-header{
+    height: 60px;
+    background-color: #fff;
+}
+.right-header img{
+    height: 30px;
+    border-radius: 100%;
+    float: right;
+    margin-right: 40px;
+    margin-top: 15px;
+}
+.right-content{
+    background-color: #fff;
+    margin: 10px;
+    height: 80%;
+    border-radius: 5px;
+    padding: 10px;
+}

@@ -1,0 +1,104 @@
+<div class="home">
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="article" style="width: 500px;height:400px;"></div>
+    <div id="user" style="width: 500px;height:400px;"></div>
+</div>
+<style>
+    #article,#user{
+        display: inline-block;
+        margin-right: 80px;
+    }
+</style>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChartArticle = echarts.init(document.getElementById('article'));
+    var myChartUser = echarts.init(document.getElementById('user'));
+
+    var title = [];
+    var readtimes = [];
+    var thumbup = [];
+    var thumbdown = [];
+    // 查询所有文章
+    findAllArticle();
+    function findAllArticle(){
+        myAjax('/manager/article/findArticle','get',{page:0,pageSize:10},function(res){
+            res.data.list.forEach(function(item){
+                title.push(item.title);
+                readtimes.push(item.readtimes)
+                thumbup.push(item.thumbup)
+                thumbdown.push(-item.thumbdown)
+            })
+        })
+    }
+    // 由于生成新的数据需要时间，所以使用定时器
+    setTimeout(function(){
+        // 指定图表的配置项和数据
+        var option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            legend: {
+                data: ['阅读次数', '点赞次数', '鄙视次数']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: [
+                {
+                    type: 'value'
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'category',
+                    axisTick: {
+                        show: false
+                    },
+                    data: title
+                }
+            ],
+            series: [
+                {
+                    name: '阅读次数',
+                    type: 'bar',
+                    label: {
+                        show: true,
+                        position: 'inside'
+                    },
+                    data: readtimes
+                },
+                {
+                    name: '点赞次数',
+                    type: 'bar',
+                    stack: '总量',
+                    label: {
+                        show: true
+                    },
+                    data: thumbup
+                },
+                {
+                    name: '鄙视次数',
+                    type: 'bar',
+                    stack: '总量',
+                    label: {
+                        show: true,
+                        position: 'left'
+                    },
+                    data: thumbdown
+                }
+            ]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChartArticle.setOption(option);
+        myChartUser.setOption(option);
+    },500)
+    
+
+    
+</script>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>看点资讯项目平台登录页面</title>
+    <!-- 引入bootstrap样式 -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 引入jQuery -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(function(){
+            // 通过ajax向后台发送数据
+            // contentType取值：
+            //     1、application/x-www-form-urlencoded(jQuery的ajax请求的默认方式)
+            //         参数：键值对 key1=value1&key2=value2
+            //     2、application/json，并且调用JSON.stringify()方法
+            //         参数：json字符串 '{"key1":"value1","key2":"value2"}'
+
+            // 使用ajax向后台发送json格式的数据？
+
+            // 登录按钮
+            $('button').click(function(){
+                var username = $('#username').val();
+                var password = $('#password').val();
+                $.ajax({
+                    url:'http://39.98.180.71:8099/manager/user/login',
+                    method:'post',
+                    data:JSON.stringify({
+                        username:username,
+                        password:password
+                    }),
+                    contentType:'application/json',
+                    success:function(res){
+                        if(res.data){
+                            // 将token设置到浏览器中
+                            localStorage.setItem('token',res.data.token)
+                            // 从浏览器获取token
+                            var token = localStorage.getItem('token');
+                            // token存在时跳转(也就是用户登录了)
+                            if(token){
+                                // 本地测试时使用127.0.0.1:5500
+                                //location.href = 'http://127.0.0.1:5500/index.html';
+                                // 部署至服务器时,使用ip
+                                location.href = 'http://39.98.180.71/project-cms/index.html';
+                            }
+                        } else {
+                            alert('请输入正确的用户名和密码！')
+                        }
+                    },
+                    error:function(err){
+                        console.log(err)
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+    <div class="login">
+        <div class="loginInner">
+            <h3>看点资讯登录</h3>
+            <div class="form-group">
+                <label for="username">用户名</label>
+                <input type="username" class="form-control" id="username" aria-describedby="emailHelp">
+            </div>
+            <div class="form-group">
+                <label for="password">密码</label>
+                <input type="password" class="form-control" id="password" aria-describedby="emailHelp">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary">登录</button>
+            </div>
+        </div>
+    </div>
+</body>
+<style>
+    html,body {
+        height: 100%;
+    }
+    .login {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: url('./images/login.jpg');
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+    .loginInner {
+        width: 400px;
+        height: 300px;
+        background-color: rgba(57,117,95,0.1);
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    .loginInner:hover{
+        box-shadow: 5px 5px 15px white;
+    }
+    .loginInner h3 {
+        text-align: center;
+        color: white;
+    }
+</style>
+</html>

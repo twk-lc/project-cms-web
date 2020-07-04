@@ -1,0 +1,116 @@
+<div class="comment">
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#comment-set" role="tab" aria-controls="home" aria-selected="true">评论设置</a>
+      </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#comment-list" role="tab" aria-controls="profile" aria-selected="false">评论列表</a>
+      </li> -->
+  </ul>
+  <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="comment-set" role="tabpanel" aria-labelledby="home-tab">
+          <table class="table table-bordered">
+              <thead>
+                  <tr>
+                      <th>编号</th>
+                      <th>文章标题</th>
+                      <th>所属栏目</th>
+                      <th>作者</th>
+                      <th>发布时间</th>
+                      <th>阅读次数</th>
+                      <th>操作</th>
+                  </tr>
+              </thead>
+              <tbody id="setTable">
+                  
+              </tbody>
+          </table>
+
+          <!-- 分页 -->
+          <div id="commentPage" class="demo"></div>
+      </div>
+      <div class="tab-pane fade" id="comment-list" role="tabpanel" aria-labelledby="profile-tab">2</div>
+  </div>
+</div>
+<style>
+  .comment{
+      height: 100%;
+      overflow: auto;
+  }
+</style>
+<!-- <div v-if="item.article">{{item.article.title}}</div> -->
+<script>
+  findAllComment(0);
+  function findAllComment(page){
+      myAjax('/manager/comment/findComment','get',{page:page,pageSize:10},function(res){
+          $('#setTable').empty();
+
+          // 如何将栏目id替换为当前id所对应的栏目名称？
+          var newData = [];
+          res.data.list.forEach(function(item){
+              if(item.article){
+                  // 查询所有栏目
+                  myAjax('/manager/category/findAllCategory','get',{},function(res){
+                      item.categoryName = res.data.filter(function(it){
+                          return it.id == item.article.categoryId
+                      })[0].name
+                  })
+              }
+              newData.push(item)
+          })
+          // newData为新增了栏目名称的新数据
+          newData.forEach(function(item){
+              // 由于categoryName在新增到新数组中需要时间，所以需要使用定时器
+              setTimeout(function(){
+                  var newTr = $(`
+                      <tr>
+                          <td><input type="checkbox" value="`+item.id+`"></td>
+                          <td>`+(item.article ? item.article.title : '--')+`</td>
+                          <td>`+(item.article ? item.categoryName : '--')+`</td>
+                          <td>`+(item.customer ? item.customer.nickname : '--')+`</td>
+                          <td>`+(item.article ? item.article.publishtime : '--')+`</td>
+                          <td>`+(item.article ? item.article.readtimes : '--')+`</td>
+                          <td>
+                              <div class="changeStatus">`+(item.status == '审核通过' ? item.status : '<button class="btn btn-info passBtn">审核</button>')+`</div>
+                          </td>
+                      </tr>
+                  `)
+                  $('#setTable').append(newTr)
+              },200)
+          })
+          // 分页数据
+          $("#commentPage").sPage({
+              page:res.data.page+1,
+              pageSize:res.data.pageSize,
+              total:res.data.total,
+              prevPage:"←",
+              nextPage:"→",
+              backFun:function(page){
+                  // page为当前点击的页码
+                  findAllComment(page-1)
+              }
+          });
+      })
+  }
+
+  
+  // 如何将评论状态为未审核的显示称按钮？
+  // 审核
+  $('.table').on('click','.passBtn',function(){
+      // 获取当前点击的文章id
+      var id = $(this).closest('tr').find('[type=checkbox]').val();
+      myAjax('/manager/comment/checkComment','get',{
+          id:id,
+          status:'审核通过'
+      },function(res){
+          if(res.status == 200){
+              alert(res.message)
+              // 更新数据
+              findAllComment(0)
+          } else {
+              alert('审核失败！')
+          }
+      })
+  })
+
+</script>
